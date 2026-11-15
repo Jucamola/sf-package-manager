@@ -96,35 +96,149 @@ sf plugins
 
 <!-- commands -->
 
-- [`sf hello world`](#sf-hello-world)
+- [`sf package manager dependencies install`](#sf-package-manager-dependencies-install)
+- [`sf pkgm dependencies install`](#sf-pkgm-dependencies-install)
 
-## `sf hello world`
+## `sf package manager dependencies install`
 
-Say hello either to the world or someone you know.
+Install package dependencies defined in sfdx-project.json.
 
 ```
 USAGE
-  $ sf hello world [--json] [-n <value>]
+  $ sf package manager dependencies install -o <value> [--json] [--flags-dir <value>] [-v <value>] [-p <value>] [-k <value>]
+    [--installation-keys-file <value>] [--apex-compile all|package] [--upgrade-type deprecate-only|mixed|delete] [-w
+    <value>] [-f] [--continue-on-error] [--api-version <value>]
 
 FLAGS
-  -n, --name=<value>  [default: World] The name of the person you'd like to say hello to.
+  -f, --force                           Bypass the check for already installed packages and force installation.
+  -k, --installation-keys=<value>       Installation key(s) for protected package versions, specified as comma-separated
+                                        pairs of "PackageAlias:key".
+  -o, --target-org=<value>              (required) Target org to install the package dependencies into.
+  -p, --package=<value>                 Package directory name from sfdx-project.json whose dependencies to install. If
+                                        not specified, dependencies from all package directories are installed.
+  -v, --target-dev-hub=<value>          Target DevHub org used to resolve package version IDs (04t) for dependencies
+                                        defined by package ID (0Ho) and version number.
+  -w, --wait=<value>                    [default: 0 minutes] Number of minutes to wait for each package installation to
+                                        complete.
+      --apex-compile=<option>           [default: all] Compile all Apex in the org and package, or only compile Apex in
+                                        the package during installation.
+                                        <options: all|package>
+      --api-version=<value>             Override the api version used for api requests made by this command
+      --continue-on-error               Continue installing remaining packages if a package installation fails.
+      --installation-keys-file=<value>  Path to a JSON file containing an array of [{"PackageAlias": "key"}] mappings.
+      --upgrade-type=<option>           [default: mixed] The upgrade type for package installation.
+                                        <options: deprecate-only|mixed|delete>
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
 
 DESCRIPTION
-  Say hello either to the world or someone you know.
+  Install package dependencies defined in sfdx-project.json.
 
-  Say hello either to the world or someone you know.
+  Resolves and installs all direct package dependencies declared in sfdx-project.json into a target org. Supports
+  resolving package version IDs (04t) directly from packageAliases or via DevHub query when using package IDs (0Ho) and
+  version numbers.
+
+ALIASES
+  $ sf pkgm dependencies install
 
 EXAMPLES
-  Say hello to the world:
+  Install dependencies for all package directories into default target org:
 
-    $ sf hello world
+    $ sf package manager dependencies install
 
-  Say hello to someone you know:
+  Install dependencies for a specific package with a 30-minute timeout:
 
-    $ sf hello world --name Astro
+    $ sf package manager dependencies install -p MyPackage -w 30
+
+  Install using installation keys from an environment variable or flag:
+
+    $ sf package manager dependencies install -k "PkgA:key1,PkgB:key2"
+
+  Force reinstallation of packages even if already installed in the target org:
+
+    $ sf package manager dependencies install --force
+
+  Continue installing remaining packages if one fails:
+
+    $ sf package manager dependencies install --continue-on-error
+
+  Use the shorthand alias:
+
+    $ sf pkgm dependencies install -p MyPackage
+```
+
+_See code: [src/commands/package/manager/dependencies/install.ts](https://github.com/jucamola/sf-package-manager/blob/v1.0.0/src/commands/package/manager/dependencies/install.ts)_
+
+## `sf pkgm dependencies install`
+
+Install package dependencies defined in sfdx-project.json.
+
+```
+USAGE
+  $ sf pkgm dependencies install -o <value> [--json] [--flags-dir <value>] [-v <value>] [-p <value>] [-k <value>]
+    [--installation-keys-file <value>] [--apex-compile all|package] [--upgrade-type deprecate-only|mixed|delete] [-w
+    <value>] [-f] [--continue-on-error] [--api-version <value>]
+
+FLAGS
+  -f, --force                           Bypass the check for already installed packages and force installation.
+  -k, --installation-keys=<value>       Installation key(s) for protected package versions, specified as comma-separated
+                                        pairs of "PackageAlias:key".
+  -o, --target-org=<value>              (required) Target org to install the package dependencies into.
+  -p, --package=<value>                 Package directory name from sfdx-project.json whose dependencies to install. If
+                                        not specified, dependencies from all package directories are installed.
+  -v, --target-dev-hub=<value>          Target DevHub org used to resolve package version IDs (04t) for dependencies
+                                        defined by package ID (0Ho) and version number.
+  -w, --wait=<value>                    [default: 0 minutes] Number of minutes to wait for each package installation to
+                                        complete.
+      --apex-compile=<option>           [default: all] Compile all Apex in the org and package, or only compile Apex in
+                                        the package during installation.
+                                        <options: all|package>
+      --api-version=<value>             Override the api version used for api requests made by this command
+      --continue-on-error               Continue installing remaining packages if a package installation fails.
+      --installation-keys-file=<value>  Path to a JSON file containing an array of [{"PackageAlias": "key"}] mappings.
+      --upgrade-type=<option>           [default: mixed] The upgrade type for package installation.
+                                        <options: deprecate-only|mixed|delete>
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Install package dependencies defined in sfdx-project.json.
+
+  Resolves and installs all direct package dependencies declared in sfdx-project.json into a target org. Supports
+  resolving package version IDs (04t) directly from packageAliases or via DevHub query when using package IDs (0Ho) and
+  version numbers.
+
+ALIASES
+  $ sf pkgm dependencies install
+
+EXAMPLES
+  Install dependencies for all package directories into default target org:
+
+    $ sf pkgm dependencies install
+
+  Install dependencies for a specific package with a 30-minute timeout:
+
+    $ sf pkgm dependencies install -p MyPackage -w 30
+
+  Install using installation keys from an environment variable or flag:
+
+    $ sf pkgm dependencies install -k "PkgA:key1,PkgB:key2"
+
+  Force reinstallation of packages even if already installed in the target org:
+
+    $ sf pkgm dependencies install --force
+
+  Continue installing remaining packages if one fails:
+
+    $ sf pkgm dependencies install --continue-on-error
+
+  Use the shorthand alias:
+
+    $ sf pkgm dependencies install -p MyPackage
 ```
 
 <!-- commandsstop -->

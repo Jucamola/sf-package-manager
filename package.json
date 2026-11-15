@@ -5,6 +5,8 @@
   "dependencies": {
     "@oclif/core": "^5",
     "@salesforce/core": "^9.3.6",
+    "@salesforce/kit": "^4.0.9",
+    "@salesforce/packaging": "^5.0.32",
     "@salesforce/sf-plugins-core": "^13.0.7"
   },
   "repository": {
@@ -47,8 +49,26 @@
       "@oclif/plugin-help"
     ],
     "topics": {
-      "hello": {
-        "description": "Commands to say hello."
+      "package": {
+        "description": "Manage packages in Salesforce.",
+        "subtopics": {
+          "manager": {
+            "description": "Package manager commands.",
+            "subtopics": {
+              "dependencies": {
+                "description": "Manage package dependencies."
+              }
+            }
+          }
+        }
+      },
+      "pkgm": {
+        "description": "Package manager aliases.",
+        "subtopics": {
+          "dependencies": {
+            "description": "Manage package dependencies."
+          }
+        }
       }
     },
     "flexibleTaxonomy": true
